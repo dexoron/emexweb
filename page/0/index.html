@@ -24,6 +24,7 @@
         />
 
         <script defer src="backend/info.js"></script>
+        <script defer src="backend/toggle.js"></script>
     </head>
     <body
         class="parallaxTop"
@@ -35,10 +36,22 @@
             </p>
         </div>-->
 
+        <div class="theme-toggle-wrapper">
+            <button id="themeToggle" class="theme-toggle">
+                <span class="theme-icon">
+                    <img src="../gen/icons/light/moon.svg" alt=" " />
+                </span>
+            </button>
+        </div>
+
         <div class="div1">
             <div class="firstwrapper">
                 <div class="first-image">
-                    <img src="images/logo.png" alt="emexOS Logo" />
+                    <img
+                        id="logo"
+                        src="images/emex-black.png"
+                        alt="emexOS Logo"
+                    />
                 </div>
 
                 <div class="top-section">

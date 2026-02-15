@@ -13,6 +13,17 @@ function showError(msg) {
     `;
 }
 
+// detect current theme
+function getTheme() {
+  return document.documentElement.getAttribute("data-theme") || "light";
+}
+
+// helper to get themed icon path
+function themedIcon(name) {
+  const theme = getTheme();
+  return `../gen/icons/${theme}/${name}.svg`;
+}
+
 fetch(API_URL)
   .then((resp) => {
     if (!resp.ok) throw new Error("api gives no response");
@@ -49,20 +60,20 @@ fetch(API_URL)
   <!--${escapeHtml(release.name || "")}-->
   </td>
 <td style="padding: 10px; border-bottom: 1px solid #ddd">
-    ${
-      iso
-        ? `<a class="button downloadButton" href="${iso.browser_download_url}">
-      <img src="../gen/icons/light/database.svg" alt="" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 6px; filter: invert(1);">
-      Download ISO
-    </a>`
-        : `<span class="placeholder">
-      No ISO
-    </span>`
-    }
-    <a class="button downloadButton" style="margin-left:8px" href="release.html?tag=${encodeURIComponent(release.tag_name)}">
-      <img src="../gen/icons/light/arrow-right.svg" alt="" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 6px; filter: invert(1);">
-      Read more
-    </a>
+  ${
+    iso
+      ? `<a class="button downloadButton" href="${iso.browser_download_url}">
+          <img src="${themedIcon("download")}" alt="" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 6px;">
+          Download ISO
+        </a>`
+      : `<span class="placeholder">
+          No ISO
+        </span>`
+  }
+  <a class="button downloadButton" style="margin-left:8px" href="release.html?tag=${encodeURIComponent(release.tag_name)}">
+    <img src="${themedIcon("arrow-right")}" alt="" style="width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin-right: 6px;">
+    Read more
+  </a>
 </td>
             `;
 
