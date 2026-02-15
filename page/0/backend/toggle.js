@@ -24,6 +24,11 @@
 
       updateIcon(newTheme);
       updateLogo(newTheme);
+
+      // dispatch custom event for other scripts to listen to
+      document.dispatchEvent(
+        new CustomEvent("themeChanged", { detail: { theme: newTheme } }),
+      );
     });
 
     function updateIcon(theme) {

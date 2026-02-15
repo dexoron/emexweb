@@ -56,10 +56,47 @@
     padding: 20px;
     overflow-x: auto;
     font-size: 16px;
+    position: relative;
 }
 
 #releaseContent img {
     max-width: 100%;
     display: block;
     margin: 20px auto;
+}
+
+.code-copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-strong);
+    padding: 8px;
+    cursor: pointer;
+    transition:
+        opacity 0.2s,
+        transform 0.15s;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.6;
+}
+
+.code-copy-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.code-copy-button.copied {
+    opacity: 1;
+}
+
+.code-copy-button img {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
 }

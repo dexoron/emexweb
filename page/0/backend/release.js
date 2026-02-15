@@ -54,9 +54,9 @@ function loadReadme(branch) {
 }
 
 function renderMarkdown(md, branch) {
-  console.log("Original markdown:", md.substring(0, 500)); // Debug log
+  console.log("Original markdown:", md.substring(0, 500));
 
-  /// Fix relative image paths - improved regex to handle more cases
+  /// relative images
   let fixedMd = md;
 
   // Handle images with paths starting with ./ or just filename
@@ -65,17 +65,17 @@ function renderMarkdown(md, branch) {
     (match, alt, path) => {
       console.log("Found image:", path); // Debug log
 
-      // Remove leading ./ or /
+      // remove leading ./ or /
       const clean = path.replace(/^\.?\//, "").trim();
       const fullUrl = `https://raw.githubusercontent.com/${REPO}/${branch}/${clean}`;
 
-      console.log("Converted to:", fullUrl); // Debug log
+      console.log("converted to:", fullUrl);
 
       return `![${alt}](${fullUrl})`;
     },
   );
 
-  // Also handle HTML img tags if present
+  // also handle HTML img tags if present
   fixedMd = fixedMd.replace(
     /<img\s+([^>]*?)src=["'](?!https?:\/\/)([^"']+)["']([^>]*?)>/gi,
     (match, before, path, after) => {
@@ -85,7 +85,33 @@ function renderMarkdown(md, branch) {
     },
   );
 
-  console.log("Fixed markdown:", fixedMd.substring(0, 500)); // Debug log
+  // convert blob URL's to raw URL's
+  fixedMd = fixedMd.replace(
+    /<img\s+([^>]*?)src=["'](https:\/\/github\.com\/[^\/]+\/[^\/]+\/blob\/[^\/]+\/)([^"']+)["']([^>]*?)>/gi,
+    (match, before, blobUrl, path, after) => {
+      const rawUrl = blobUrl
+        .replace("https://github.com/", "https://raw.githubusercontent.com/")
+        .replace("/blob/", "/");
+      const fullUrl = rawUrl + path;
+      console.log("Converted GitHub blob URL to:", fullUrl);
+      return `<img ${before}src="${fullUrl}"${after}>`;
+    },
+  );
+
+  // markdown images
+  fixedMd = fixedMd.replace(
+    /!\[([^\]]*)\]\((https:\/\/github\.com\/[^\/]+\/[^\/]+\/blob\/[^\/]+\/)([^)]+)\)/g,
+    (match, alt, blobUrl, path) => {
+      const rawUrl = blobUrl
+        .replace("https://github.com/", "https://raw.githubusercontent.com/")
+        .replace("/blob/", "/");
+      const fullUrl = rawUrl + path;
+      console.log("Converted GitHub blob URL to:", fullUrl);
+      return `![${alt}](${fullUrl})`;
+    },
+  );
+
+  console.log("Fixed markdown:", fixedMd.substring(0, 500));
 
   const html = marked.parse(fixedMd);
   const safe = DOMPurify.sanitize(html);
@@ -112,4 +138,46 @@ function renderMarkdown(md, branch) {
       console.log("Successfully loaded image:", this.src);
     });
   });
+
+  // copy button for codeblocks
+  contentEl.querySelectorAll("pre").forEach((pre) => {
+    const button = document.createElement("button");
+    button.className = "code-copy-button";
+    button.innerHTML = `
+      <img class="theme-icon-dynamic" data-icon="copy" src="../gen/icons/${getTheme()}/copy.svg" alt="Copy code" />
+    `;
+
+    button.addEventListener("click", async function () {
+      const code = pre.querySelector("code");
+      const text = code ? code.textContent : pre.textContent;
+
+      try {
+        await navigator.clipboard.writeText(text);
+        button.classList.add("copied");
+
+        setTimeout(() => {
+          button.classList.remove("copied");
+        }, 1000);
+      } catch (err) {
+        console.error("failed to copy:", err);
+      }
+    });
+
+    pre.style.position = "relative";
+    pre.appendChild(button);
+  });
 }
+
+function getTheme() {
+  return document.documentElement.getAttribute("data-theme") || "light";
+}
+
+// changes the icon when theme is changed
+document.addEventListener("themeChanged", function () {
+  const copyIcons = document.querySelectorAll(
+    ".code-copy-button .theme-icon-dynamic",
+  );
+  copyIcons.forEach((icon) => {
+    icon.src = `../gen/icons/${getTheme()}/copy.svg`;
+  });
+});
