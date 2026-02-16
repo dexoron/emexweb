@@ -10,7 +10,7 @@
     /*border: 3px solid var(--color-border-strong);*/
     border: none;
     padding: 12px 20px;
-    cursor: pointer;
+    cursor: none;
     font-size: 16px;
     font-family: var(--font-accent);
     font-weight: 600;

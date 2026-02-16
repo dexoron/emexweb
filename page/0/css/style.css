@@ -5,6 +5,7 @@
 @import url("media.css");
 @import url("theme.css");
 @import url("link.css");
+@import url("cursor.css");
 
 :root {
     --color-bg: #ffffff;
@@ -131,7 +132,7 @@ h1::after {
     font-size: 15px;
     margin: 4px 2px;
     transition-duration: 0.2s;
-    cursor: pointer;
+    cursor: none;
     border-radius: 0px;
 }
 

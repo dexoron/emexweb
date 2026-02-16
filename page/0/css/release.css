@@ -73,7 +73,7 @@
     border: none;
     color: var(--color-text-strong);
     padding: 8px;
-    cursor: pointer;
+    cursor: none;
     transition:
         opacity 0.2s,
         transform 0.15s;
