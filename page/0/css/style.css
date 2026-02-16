@@ -244,7 +244,7 @@ h1::after {
     left: 20px;
     font-size: 16px;
     color: var(--color-text-inverse);
-    background-color: var(--color-surface-dark);
+    background-color: var(--color-surface-inverse);
     padding: 10px;
     text-decoration: none;
     display: flex;
@@ -255,10 +255,11 @@ h1::after {
 }
 
 .ibackButton:hover {
-    background-color: var(--color-surface-dark);
+    background-color: var(--color-surface-inverse);
 }
 
 .ibackButton i {
+    color: var(--color-text-inverse);
     margin-right: 8px;
 }
 
