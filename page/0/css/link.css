@@ -1,0 +1,16 @@
+a {
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--color-text);
+}
+
+a:hover {
+    color: var(--color-text);
+}
+
+a:active {
+    color: var(--color-text);
+}

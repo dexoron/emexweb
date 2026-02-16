@@ -45,11 +45,11 @@
     function updateLogo(theme) {
       if (!logo) return;
       if (theme === "light") {
-        logo.src = "images/emex-black.png";
-        logo.alt = "emexOS Logo - Black";
+        logo.src = "images/logo.png";
+        logo.alt = "emexOS Logo Black";
       } else {
-        logo.src = "images/emex-white.png";
-        logo.alt = "emexOS Logo - White";
+        logo.src = "images/logo.png";
+        logo.alt = "emexOS Logo White";
       }
     }
   });
